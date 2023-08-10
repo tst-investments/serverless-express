@@ -3,8 +3,8 @@ const url = require('url')
 function getPathWithQueryStringParams ({
   event,
   query = event.multiValueQueryStringParameters,
-  // NOTE: Use `event.pathParameters.proxy` if available ({proxy+}); fall back to `event.path`
-  path = (event.pathParameters && event.pathParameters.proxy && `/${event.pathParameters.proxy}`) || event.path,
+  // NOTE: Use full path to fix problem with API Gateway basePath. (Override default behavior of only using {proxy+} path)
+  path = event.path,
   // NOTE: Strip base path for custom domains
   stripBasePath = '',
   replaceRegex = new RegExp(`^${stripBasePath}`)
